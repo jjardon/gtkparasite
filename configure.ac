@@ -1,6 +1,8 @@
-AC_INIT(gtkparasite, 0.1.0, chipx86@chipx86.com)
-AC_PREREQ(2.50)
-AC_CONFIG_SRCDIR(config.h.in)
+AC_INIT([gtkparasite],[0.1.0],[chipx86@chipx86.com])
+AC_PREREQ([2.63])
+AC_CONFIG_SRCDIR([config.h.in])
+AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR([build-aux])
 AC_COPYRIGHT([Copyright 2008-2009 Christian Hammond])
 
 dnl ################################################################
@@ -26,16 +28,18 @@ AC_SUBST(LT_AGE)
 dnl ################################################################
 dnl # Initialize automake
 dnl ################################################################
-VERSION=0.1.0
-PACKAGE=gtkparasite
+AM_INIT_AUTOMAKE([1.11 -Wall])
 
-AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
+# Support silent build rules, requires at least automake-1.11. Disable
+# by either passing --disable-silent-rules to configure or passing V=1
+# to make
+AM_SILENT_RULES([yes])
 
 
 dnl ################################################################
 dnl # Specify a header configuration file
 dnl ################################################################
-AM_CONFIG_HEADER(config.h)
+AC_CONFIG_HEADERS([config.h])
 
 
 dnl ################################################################
@@ -45,15 +49,18 @@ AC_PROG_CPP
 AC_PROG_MAKE_SET
 AC_PROG_LN_S
 AC_PROG_INSTALL
-AM_PROG_LIBTOOL
+
+dnl ################################################################
+dnl # Initialize libtool
+dnl ################################################################
+LT_PREREQ([2.2])
+LT_INIT
 
 AC_C_CONST
 AC_TYPE_SIZE_T
 AC_EXEEXT
 
 PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= 3.0.0])
-AC_SUBST(GTK_CFLAGS)
-AC_SUBST(GTK_LIBS)
 
 GDK_BACKEND=`pkg-config --variable=target gtk+-2.0`
 AM_CONDITIONAL(HAVE_X11, [test x"$GDK_BACKEND" = x"x11"])
