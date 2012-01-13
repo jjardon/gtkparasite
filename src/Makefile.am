@@ -25,9 +25,9 @@ libgtkparasite_la_LIBADD =
 
 module_LTLIBRARIES = libgtkparasite.la
 
-INCLUDES = $(GTK_CFLAGS)
+AM_CPPFLAGS = $(GTK_CFLAGS)
 
 if HAVE_X11
-INCLUDES += -DHAVE_X11
+AM_CPPFLAGS += -DHAVE_X11
 endif
 
